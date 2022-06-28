@@ -10,7 +10,7 @@
 #     - 
 # SKIP PROP 26
 
-# In[103]:
+# In[106]:
 
 
 from selenium import webdriver
@@ -72,7 +72,7 @@ while not isLastPage:
         print(e, "Error:")
 
 
-# In[105]:
+# In[120]:
 
 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -99,18 +99,31 @@ for currProp in totalProps:
     propState = driver.find_element(By.XPATH, '//*[@id="propertyAddressRow"]/div/h2/span[3]/span[1]').text
     propZIP = driver.find_element(By.XPATH, '//*[@id="propertyAddressRow"]/div/h2/span[3]/span[2]').text
     propFullAddress = propAddress + ', ' + propCity + ', ' + propState + ' ' + propZIP
-    
+        
+        #Property Rating
+    rating = 0    
+    ratingList = driver.find_elements(By.XPATH, '//*[@id="propertyReviewRow"]/div/div[1]/span[1]/i')
+    for j in range(1, len(ratingList)+1):
+        starURL = f'//*[@id="propertyReviewRow"]/div/div[1]/span[1]/i[{j}]'
+        star = driver.find_element(By.XPATH, starURL)
+        if star.get_attribute('class') == 'storyicon starFullStoryIcon':
+            rating += 1
+        elif star.get_attribute('class') == 'storyicon star50StoryIcon':
+            rating += .5
+                
         #Property Coordinates
     #Moving the browser to the Location section so the map gets generated.
     location = driver.find_element(By.XPATH, '//*[@id="mapSection"]/h2')
     actions = ActionChains(driver)
     actions.move_to_element(location).perform()
     
-    #Sleep function is called to allow the website to fill out the information
-    time.sleep(3)
-    coorURL = driver.find_element(By.XPATH, '/html/body/div[1]/main/section[1]/div[1]/div[2]/div[1]/div[2]/section[6]/div[2]/div[1]/div/div[2]/div/div/div[14]/div/a').get_attribute('href')
-    print(coorURL)
+        #Property RentInfo
+    propRent = driver.find_element(By.XPATH, '//*[@id="priceBedBathAreaInfoWrapper"]/div/div/ul/li[1]/div/p[2]').text
+    print(propRent)
     
+    #Sleep function is called to allow the website to fill out the information
+    time.sleep(10)
+    coorURL = driver.find_element(By.XPATH, '/html/body/div[1]/main/section[1]/div[1]/div[2]/div[1]/div[2]/section[6]/div[2]/div[1]/div/div[2]/div/div/div[14]/div/a').get_attribute('href')
 
 
 # LOOP THROUGH THE TOTALPROPS ARRAY 
