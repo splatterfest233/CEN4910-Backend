@@ -40,12 +40,7 @@ Detailed Information of each apartment model available such as:
 
 <h2>WIP:</h2>
 <ul>
-<li>Rating Information</li>
-<li>Available Floor Plans</li>
-<li>Pricing Information</li>
-<li>Property Features</li>
 <li>Contact Information</li>
-<li>Community Information</li>
 <li>HOA Information</li>
 <li>Property Services</li>
 <li>Lease Details and more.</li>
