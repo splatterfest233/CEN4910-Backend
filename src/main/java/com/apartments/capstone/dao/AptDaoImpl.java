@@ -1,9 +1,9 @@
 package com.apartments.capstone.dao;
 
-
 import com.apartments.capstone.entity.PropertyName;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -15,35 +15,31 @@ import java.util.List;
 @Repository
 public class AptDaoImpl {
 
-    //lets write code that retrieves property name and id given a name
+    // write code that retrieves property name and id given a name
     //get id from name
     //then using that id, query for other items
-    //bring that all back
 
-    //maybe join all entity into one
-
-    @Autowired
-    private final SessionFactory sessionFactory;
-
-    public AptDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+//    private final SessionFactory sessionFactory = new Configuration().buildSessionFactory();
 
     public PropertyName getPropertyIdFromName(String name) throws DataAccessException
     {
         PropertyName propName = new PropertyName();
         try{
-            Session session = sessionFactory.openSession();
-            Query query = session.createQuery("SELECT property_name, property_id \n" +
-                    "FROM propertyname \n" +
-                    "WHERE property_name LIKE :name", PropertyName.class);
-            query.setParameter("name", name);
-            List<PropertyName> results = query.list();
-            if(results.size() > 0){
-                propName = results.get(0);
-            }
+//            Session session = sessionFactory.openSession();
+//            session.beginTransaction();
+//            //seems to be failing here
+//            Query query = session.createQuery("SELECT P.propertyName, P.propertyId " +
+//                    "FROM com.apartments.capstone.entity.PropertyName P " +
+//                    "WHERE P.propertyName LIKE :name", PropertyName.class)
+//                    .setParameter("name", name);
+//            List<PropertyName> results = query.list();
+//            if(results != null && !results.isEmpty()){
+//                System.out.println(results);
+//                propName = results.get(0);
+//            }
+//            session.close();
         } catch (Exception e) {
-            System.out.println("getProperytIdFromName -- Failed");
+            System.out.println("getPropertyIdFromName -- Failed");
             e.printStackTrace();
         }
         System.out.println(propName);

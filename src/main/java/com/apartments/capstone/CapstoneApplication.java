@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 //tells spring boot to look in following packages
 @ComponentScan(basePackageClasses = {AptController.class, AptServiceImpl.class, AptDaoImpl.class})
-@EntityScan(basePackages = {"entity"})
+@EntityScan(basePackages = "entity")
 public class CapstoneApplication {
 
 	public static void main(String[] args) {
