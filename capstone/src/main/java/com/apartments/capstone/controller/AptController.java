@@ -1,27 +1,33 @@
 package com.apartments.capstone.controller;
 
-import com.apartments.capstone.serviceImpl.AptService;
+import com.apartments.capstone.entity.PropertyName;
+import com.apartments.capstone.entity.RequestObject;
+import com.apartments.capstone.serviceImpl.AptServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
+//handles web requests
 @RestController
-@RequestMapping(value = "api/beta/addData")
+//endpoint
+@RequestMapping
 public class AptController {
 
-    private final AptService aptService;
+    private final AptServiceImpl aptService;
 
     @Autowired
-    public AptController(AptService aptService) { this.aptService = aptService;}
+    public AptController(AptServiceImpl aptService) {
+        this.aptService = aptService;
+    }
 
-    //get entry by name
-    //probably change request body type
-    //and response type
-   @GetMapping
-    public Optional<Object[]> aptInfoByName (@RequestBody String name){return aptService.getAptInfo(name);}
+    //handles post requests
+    @PostMapping(path = "/getAptInfo")
+    public PropertyName aptInfoByName (@RequestBody RequestObject name) {
+        String aptName = name.getName();
+        return aptService.aptIdByName(aptName);
+        //then use the id to get rest of info
+    }
 
 }

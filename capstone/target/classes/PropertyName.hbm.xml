@@ -1,0 +1,20 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name = "com.apartments.capstone.entity.PropertyName" table = "propertyname">
+
+        <meta attribute = "class-description">
+            This class contains the names of the various properties.
+        </meta>
+
+        <id name = "propertyId" type = "int" column = "property_id">
+            <generator class="native"/>
+        </id>
+
+        <property name = "propertyName" column = "property_name" type = "string"/>
+
+    </class>
+</hibernate-mapping>
