@@ -10,7 +10,7 @@ public class PropertyName implements Serializable {
     @SequenceGenerator(name = "seq_generator", sequenceName = "seq_generator", allocationSize = 1)
     @GeneratedValue(generator = "seq_generator", strategy = GenerationType.SEQUENCE )
     @Column(name = "property_id")
-    private Long propertyId;
+    private int propertyId;
 
     @Column(name ="property_name")
     private String propertyName;
@@ -18,16 +18,16 @@ public class PropertyName implements Serializable {
     public PropertyName() {
     }
 
-    public PropertyName(Long propertyId, String propertyName) {
+    public PropertyName(int propertyId, String propertyName) {
         this.propertyId = propertyId;
         this.propertyName = propertyName;
     }
 
-    public Long getPropertyId() {
+    public int getPropertyId() {
         return propertyId;
     }
 
-    public void setPropertyId(Long propertyId) {
+    public void setPropertyId(int propertyId) {
         this.propertyId = propertyId;
     }
 

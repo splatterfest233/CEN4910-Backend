@@ -12,7 +12,7 @@
 
         <property name="show_sql">true</property>
 
-        <mapping class = "com.apartments.capstone.entity.PropertyName"/>
+        <mapping resource="PropertyName.hbm.xml" />
 
     </session-factory>
 </hibernate-configuration>

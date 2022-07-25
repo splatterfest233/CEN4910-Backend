@@ -3,8 +3,10 @@ package com.apartments.capstone.dao;
 import com.apartments.capstone.entity.PropertyName;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.hibernate.service.ServiceRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -15,32 +17,62 @@ import java.util.List;
 @Repository
 public class AptDaoImpl {
 
-    // write code that retrieves property name and id given a name
-    //get id from name
+    @Autowired
+    private static SessionFactory sessionFactory;
+
+    private static void loadSessionFactory()
+    {
+        try {
+            Configuration configuration = new Configuration();
+            configuration.configure("hibernate.cfg.xml");
+            configuration.addResource("PropertyName.hbm.xml");
+            ServiceRegistry registry = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties())
+                    .build();
+            sessionFactory = configuration.buildSessionFactory(registry);
+        }catch (Exception e)
+        {
+            System.out.println("loadSessionFactory -- Failed");
+            e.printStackTrace();
+        }
+    }
+
+    public static Session getSession(){
+        Session session = null;
+        try{
+            session = sessionFactory.openSession();
+        } catch (Exception e){
+            System.out.println("getSession -- Failed");
+            e.printStackTrace();
+        }
+        return session;
+    }
+
+    //retrieves property name and id given a name
     //then using that id, query for other items
-
-//    private final SessionFactory sessionFactory = new Configuration().buildSessionFactory();
-
     public PropertyName getPropertyIdFromName(String name) throws DataAccessException
     {
         PropertyName propName = new PropertyName();
         try{
-//            Session session = sessionFactory.openSession();
-//            session.beginTransaction();
-//            //seems to be failing here
-//            Query query = session.createQuery("SELECT P.propertyName, P.propertyId " +
-//                    "FROM com.apartments.capstone.entity.PropertyName P " +
-//                    "WHERE P.propertyName LIKE :name", PropertyName.class)
-//                    .setParameter("name", name);
-//            List<PropertyName> results = query.list();
-//            if(results != null && !results.isEmpty()){
-//                System.out.println(results);
-//                propName = results.get(0);
-//            }
-//            session.close();
+            loadSessionFactory();
+            Session getId = getSession();
+            getId.beginTransaction();
+
+            Query query = getId.createQuery("SELECT P " +
+                    "FROM com.apartments.capstone.entity.PropertyName P " +
+                    "WHERE P.propertyName LIKE :name", PropertyName.class)
+                    .setParameter("name", name);
+
+            List<PropertyName> results = query.list();
+
+            if(results != null && !results.isEmpty()){
+                System.out.println(results);
+                propName = results.get(0);
+            }
         } catch (Exception e) {
             System.out.println("getPropertyIdFromName -- Failed");
             e.printStackTrace();
+        } finally {
+            getSession().close();
         }
         System.out.println(propName);
         return propName;
